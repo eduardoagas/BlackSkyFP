@@ -7,11 +7,36 @@ public class TargetLockSystem : MonoBehaviour
     private Transform currentTarget;
     private PlayerVision vision;
 
+    public float lockLossDelay = 0.3f; // tempo em segundos antes de perder o lock
+    private float lockLossTimer = 0f;
+
     public Transform CurrentTarget { get => currentTarget; }
 
     private void Awake()
     {
         vision = GetComponent<PlayerVision>();
+    }
+
+    private void Update()
+    {
+        if (currentTarget == null)
+        {
+            ClearLock();
+            return;
+        }
+
+        if (!IsTargetStillVisible())
+        {
+            lockLossTimer += Time.deltaTime;
+            if (lockLossTimer >= lockLossDelay)
+            {
+                ClearLock();
+            }
+        }
+        else
+        {
+            lockLossTimer = 0f; // reset do timer se alvo visível
+        }
     }
 
     public void LockNearestTarget()
@@ -37,5 +62,27 @@ public class TargetLockSystem : MonoBehaviour
             Destroy(currentCrosshair);
 
         currentCrosshair = Instantiate(crosshairPrefab, currentTarget.position, Quaternion.identity, currentTarget);
+    }
+
+    private bool IsTargetStillVisible()
+    {
+        var enemies = vision.GetVisibleEnemies();
+        foreach (var enemy in enemies)
+        {
+            if (enemy.transform == currentTarget)
+                return true;
+        }
+        return false;
+    }
+
+    private void ClearLock()
+    {
+        currentTarget = null;
+
+        if (currentCrosshair != null)
+        {
+            Destroy(currentCrosshair);
+            currentCrosshair = null;
+        }
     }
 }

@@ -4,6 +4,7 @@ public class ShootSystem : MonoBehaviour
 {
     public LayerMask obstacleMask;
     private TargetLockSystem lockSystem;
+    public WeaponEffectData weaponEffect;
 
     void Awake()
     {
@@ -28,6 +29,8 @@ public class ShootSystem : MonoBehaviour
         }
 
         Debug.Log("Acertou o alvo!");
+        HitEffectManager.Instance.ApplyHitEffect(target.position, weaponEffect);
         MiniGameManager.Instance.StartKillTheBirdMiniGame();
     }
+
 }

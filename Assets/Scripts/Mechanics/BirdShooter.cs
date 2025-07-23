@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class BirdShooter : MonoBehaviour
 {
+
+    [SerializeField] private WeaponEffectData weaponEffect; // Defina via Inspector
     void Update()
     {
         if (Input.GetButtonDown("Fire1"))
@@ -20,7 +22,7 @@ public class BirdShooter : MonoBehaviour
                 BirdTarget bird = r.gameObject.GetComponent<BirdTarget>();
                 if (bird != null)
                 {
-                    bird.OnHit();
+                    bird.OnHit(weaponEffect);
                     break;
                 }
             }
