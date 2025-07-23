@@ -22,7 +22,7 @@ public class BirdShooter : MonoBehaviour
                 BirdTarget bird = r.gameObject.GetComponent<BirdTarget>();
                 if (bird != null)
                 {
-                    bird.OnHit(weaponEffect);
+                    bird.OnHit();
                     break;
                 }
             }

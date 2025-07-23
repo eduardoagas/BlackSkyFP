@@ -29,7 +29,7 @@ public class ShootSystem : MonoBehaviour
         }
 
         Debug.Log("Acertou o alvo!");
-        HitEffectManager.Instance.ApplyHitEffect(target.position, weaponEffect);
+        HitEffectManager.Instance.ApplyWorldHitEffect(target.position);
         MiniGameManager.Instance.StartKillTheBirdMiniGame();
     }
 
